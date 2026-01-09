@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Country Explorer
 
-## Getting Started
+## Project Overview
+A comprehensive Country Explorer application built with Next.js and TypeScript. It allows users to browse data from the REST Countries API with a focus on performance, responsiveness, and user experience.
 
-First, run the development server:
+### Features
+* Homepage: List of all countries using ISR (Incremental Static Regeneration).
+* Search and Filter: Real-time search by name and filtering by region.
+* Infinite Scroll: Batched rendering of country cards for better performance.
+* Detail Pages: Dynamic routing for specific country data and border navigation.
+* Theme Toggle: Dark and Light mode persistence using Zustand.
+* Favorites System: Save and manage favorite countries via Local Storage.
+* Comparison Tool: Side-by-side comparison of two selected countries.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
+* Framework: Next.js 15 (App Router)
+* State Management: Zustand
+* Styling: Tailwind CSS
+* Animations: Framer Motion
+* Language: TypeScript
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup and Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository using git clone followed by your repository link.
+2. Install dependencies by running npm install in your terminal.
+3. Start the development server by running npm run dev.
+4. Open http://localhost:3000 in your browser to view the app.
+5. To create a production build, use the command npm run build.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Approach and Architecture
+The app uses a hybrid rendering strategy: ISR for the main list to ensure speed and SSR for detail pages to handle dynamic data. I utilized Zustand middleware for state persistence, ensuring user preferences like themes and favorites remain intact across sessions. To maintain a smooth UI with over 200 data points, I implemented an Intersection Observer for infinite scrolling, which significantly reduces the initial DOM load.
 
-## Learn More
+## Challenges and Solutions
+* Hydration Errors: Accessing Local Storage during the initial render caused mismatches between server and client. I resolved this by implementing mount-tracking with useEffect to ensure client-side state only loads after the component is hydrated.
+* API Inconsistency: Some countries lacked specific data like area or borders. I implemented strict TypeScript interfaces and fallback UI strings (N/A) to handle these null/undefined cases gracefully.
+* Layout Shifts: Image loading for flags occasionally caused shifts. I used fixed aspect ratios and relative containers to reserve space during the loading state.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Assumptions and Improvements
+* Assumptions: Users prioritize common names over official names for searching. CCA3 codes are used as unique identifiers for all internal routing and favorite logic.
+* Future Improvements: Adding unit tests for the filtering logic and integrating TanStack Query for more advanced server-side caching and revalidation.
