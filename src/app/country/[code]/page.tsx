@@ -10,7 +10,7 @@ export default async function CountryDetailPage({ params }: Props) {
     const country = await getCountryByCode(code);
 
     if (!country) {
-        return <div className="p-8">Country not found</div>;
+        return <div className="p-8 text-center">Country not found</div>;
     }
 
     const nativeName = country.name?.nativeName
@@ -28,98 +28,79 @@ export default async function CountryDetailPage({ params }: Props) {
         : "N/A";
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-            <div className="p-8">
-                <Link
-                    href="/"
-                    className="mb-8 inline-flex items-center gap-2 rounded bg-white px-6 py-2 shadow hover:shadow-md dark:bg-gray-800"
-                >
-                    ← Back
-                </Link>
+        /* GLOBAL FIX: 
+           We set the background and text color ONCE here on the parent div.
+           Everything inside will inherit these colors automatically.
+        */
+        <div className="min-h-screen p-8 transition-colors duration-300 bg-background text-foreground">
+            <Link
+                href="/"
+                className="mb-8 inline-flex items-center gap-2 rounded px-6 py-2 shadow transition-transform hover:scale-105 border border-slate-200 bg-white text-slate-900 dark:bg-slate-800 dark:text-white dark:border-slate-700"
+            >
+                ← Back
+            </Link>
 
-                <div className="grid gap-8 md:grid-cols-2">
-                    {/* Flag */}
-                    <div>
-                        <img
-                            src={country.flags.svg}
-                            alt={country.name.common}
-                            className="w-full rounded-lg shadow-lg"
-                        />
+            <div className="grid gap-12 md:grid-cols-2 items-center">
+                <div>
+                    <img
+                        src={country.flags.svg}
+                        alt={country.name.common}
+                        className="w-full rounded-lg shadow-xl object-cover"
+                    />
+                </div>
+
+                <div className="space-y-8">
+                    <h1 className="text-4xl font-extrabold">
+                        {country.name.common}
+                    </h1>
+
+                    <div className="grid gap-4 sm:grid-cols-2 text-base">
+                        <div>
+                            <p className="font-semibold">
+                                Native Name: <span className="font-normal opacity-80">{nativeName}</span>
+                            </p>
+                            <p className="font-semibold">
+                                Population: <span className="font-normal opacity-80">{country.population.toLocaleString()}</span>
+                            </p>
+                            <p className="font-semibold">
+                                Region: <span className="font-normal opacity-80">{country.region}</span>
+                            </p>
+                            <p className="font-semibold">
+                                Sub Region: <span className="font-normal opacity-80">{country.subregion || "N/A"}</span>
+                            </p>
+                            <p className="font-semibold">
+                                Capital: <span className="font-normal opacity-80">{country.capital?.[0] || "N/A"}</span>
+                            </p>
+                        </div>
+                        <div>
+                            <p className="font-semibold">
+                                Top Level Domain: <span className="font-normal opacity-80">{country.tld?.[0] || "N/A"}</span>
+                            </p>
+                            <p className="font-semibold">
+                                Currencies: <span className="font-normal opacity-80">{currencies}</span>
+                            </p>
+                            <p className="font-semibold">
+                                Languages: <span className="font-normal opacity-80">{languages}</span>
+                            </p>
+                        </div>
                     </div>
 
-                    {/* Details */}
-                    <div className="space-y-6 rounded-lg bg-white p-8 shadow dark:bg-gray-800">
-                        <h1 className="text-4xl font-bold">{country.name.common}</h1>
-
-                        <div className="grid gap-4 sm:grid-cols-2">
-                            <div>
-                                <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">
-                                    Native Name
-                                </p>
-                                <p className="text-lg">{nativeName}</p>
-                            </div>
-                            <div>
-                                <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">
-                                    Population
-                                </p>
-                                <p className="text-lg">{country.population.toLocaleString()}</p>
-                            </div>
-                            <div>
-                                <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">
-                                    Region
-                                </p>
-                                <p className="text-lg">{country.region}</p>
-                            </div>
-                            <div>
-                                <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">
-                                    Sub Region
-                                </p>
-                                <p className="text-lg">{country.subregion || "N/A"}</p>
-                            </div>
-                            <div>
-                                <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">
-                                    Capital
-                                </p>
-                                <p className="text-lg">{country.capital?.[0] || "N/A"}</p>
-                            </div>
-                            <div>
-                                <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">
-                                    TLD
-                                </p>
-                                <p className="text-lg">{country.tld?.[0] || "N/A"}</p>
-                            </div>
-                            <div>
-                                <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">
-                                    Currencies
-                                </p>
-                                <p className="text-lg">{currencies}</p>
-                            </div>
-                            <div>
-                                <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">
-                                    Languages
-                                </p>
-                                <p className="text-lg">{languages}</p>
+                    {country.borders && country.borders.length > 0 && (
+                        <div className="mt-8">
+                            <h3 className="text-lg font-semibold mb-4">Border Countries:</h3>
+                            <div className="flex flex-wrap gap-3">
+                                {country.borders.map((borderCode: string) => (
+                                    <Link
+                                        key={borderCode}
+                                        href={`/country/${borderCode}`}
+                                        className="rounded px-4 py-1 shadow-sm text-sm transition-colors border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:bg-slate-800 dark:text-white dark:border-slate-700 dark:hover:bg-slate-700"
+                                    >
+                                        {borderCode}
+                                    </Link>
+                                ))}
                             </div>
                         </div>
-
-                        {/* Border Countries */}
-                        {country.borders && country.borders.length > 0 && (
-                            <div>
-                                <p className="mb-3 font-semibold">Border Countries</p>
-                                <div className="flex flex-wrap gap-2">
-                                    {country.borders.map((borderCode: string) => (
-                                        <Link
-                                            key={borderCode}
-                                            href={`/country/${borderCode}`}
-                                            className="rounded bg-gray-200 px-4 py-2 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
-                                        >
-                                            {borderCode}
-                                        </Link>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                    )}
                 </div>
             </div>
         </div>

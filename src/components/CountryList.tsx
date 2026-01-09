@@ -32,7 +32,7 @@ export default function CountryList({ initialCountries }: CountryListProps) {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     suppressHydrationWarning
-                    className="w-full md:w-1/3 p-3 rounded-md shadow-sm border outline-none transition-colors !bg-white !text-black border-slate-200 placeholder:text-slate-500 focus:ring-2 focus:ring-slate-300 dark:!bg-slate-800 dark:!text-white dark:border-slate-700 dark:focus:ring-slate-600 dark:placeholder:text-slate-400"
+                    className="w-full md:w-1/3 p-3 rounded-md shadow-sm border outline-none transition-colors bg-white text-slate-900 border-slate-200 placeholder:text-slate-500 focus:ring-2 focus:ring-slate-300 dark:bg-slate-800 dark:text-white dark:border-slate-700 dark:focus:ring-slate-600 dark:placeholder:text-slate-400"
                 />
                 
                 <div className="relative">
@@ -40,7 +40,7 @@ export default function CountryList({ initialCountries }: CountryListProps) {
                         value={selectedRegion}
                         onChange={(e) => setSelectedRegion(e.target.value)}
                         suppressHydrationWarning
-                        className="p-3 pr-10 rounded-md shadow-sm border outline-none cursor-pointer transition-colors appearance-none !bg-white !text-black border-slate-200 focus:ring-2 focus:ring-slate-300 dark:!bg-slate-800 dark:!text-white dark:border-slate-700 dark:focus:ring-slate-600"
+                        className="p-3 pr-10 rounded-md shadow-sm border outline-none cursor-pointer transition-colors appearance-none bg-white text-slate-900 border-slate-200 focus:ring-2 focus:ring-slate-300 dark:bg-slate-800 dark:text-white dark:border-slate-700 dark:focus:ring-slate-600"
                     >
                         <option value="">All Regions</option>
                         {REGIONS.map((region) => (

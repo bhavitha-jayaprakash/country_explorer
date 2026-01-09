@@ -5,26 +5,25 @@
   --color-foreground: var(--foreground);
 }
 
-/* Define the actual color values */
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
+  color-scheme: light;
 }
 
-/* Dark mode overrides */
 .dark {
-  --background: #020617;
+  --background: #0f172a;
   --foreground: #f8fafc;
+  color-scheme: dark;
 }
 
-/* Apply the variables to the body */
 body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Force clean styles for inputs */
 input[type='text'], 
 select {
   appearance: none;
