@@ -1,6 +1,7 @@
 import { getAllCountries } from "@/lib/api";
 import CountryList from "@/components/CountryList";
 import ThemeToggle from "@/components/ThemeToggle";
+import Link from "next/link";
 
 export const revalidate = 3600;
 
@@ -15,7 +16,15 @@ export default async function Home() {
           <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
             Where in the world?
           </h1>
-          <ThemeToggle />
+          <div className="flex items-center gap-4">
+            <Link 
+                href="/favorites"
+                className="text-sm font-semibold hover:underline hidden sm:block"
+            >
+                ❤️ Favorites
+            </Link>
+            <ThemeToggle />
+          </div>
         </header>
 
         <CountryList initialCountries={countries} />

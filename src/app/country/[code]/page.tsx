@@ -1,5 +1,6 @@
 import { getCountryByCode } from "@/lib/api";
 import Link from "next/link";
+import FavoriteButton from "@/components/FavoriteButton";
 
 interface Props {
     params: Promise<{ code: string }>;
@@ -28,10 +29,6 @@ export default async function CountryDetailPage({ params }: Props) {
         : "N/A";
 
     return (
-        /* GLOBAL FIX: 
-           We set the background and text color ONCE here on the parent div.
-           Everything inside will inherit these colors automatically.
-        */
         <div className="min-h-screen p-8 transition-colors duration-300 bg-background text-foreground">
             <Link
                 href="/"
@@ -50,9 +47,13 @@ export default async function CountryDetailPage({ params }: Props) {
                 </div>
 
                 <div className="space-y-8">
-                    <h1 className="text-4xl font-extrabold">
-                        {country.name.common}
-                    </h1>
+                    {/* Header: Title Left, Button Right */}
+                    <div className="flex flex-row items-center justify-between w-full">
+                        <h1 className="text-3xl md:text-4xl font-extrabold mr-4">
+                            {country.name.common}
+                        </h1>
+                        <FavoriteButton country={country} />
+                    </div>
 
                     <div className="grid gap-4 sm:grid-cols-2 text-base">
                         <div>

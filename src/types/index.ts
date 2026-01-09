@@ -31,4 +31,5 @@ export interface Country {
         svg: string;
         alt: string;
     };
+    area: number;
 }
